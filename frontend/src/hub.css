@@ -345,6 +345,10 @@
 .hub-content h1                             { color: #111; }
 .hub-content h2                             { color: #333; }
 
+/* Table cell alignment — center buttons vertically in rows */
+.hub-content td                             { vertical-align: middle; }
+.hub-content .actions-cell                  { display: flex; gap: 0.4rem; align-items: center; }
+
 /* Hub shell dark overrides */
 [data-theme="dark"] body                    { background: #141414; }
 [data-theme="dark"] .hub-root               { background: #141414; }
