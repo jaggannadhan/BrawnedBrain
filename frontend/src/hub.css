@@ -4,7 +4,7 @@
   display: flex;
   height: 100vh;
   overflow: hidden;
-  background: #141414;
+  background: #f5f5f5;
 }
 
 /* ===== Sidebar ===== */
@@ -173,7 +173,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #141414;
+  background: #f5f5f5;
 }
 
 .loading-card {
@@ -182,8 +182,8 @@
   align-items: center;
   gap: 14px;
   padding: 48px 64px;
-  background: #1c1c1e;
-  border: 1px solid #2a2a2e;
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
   border-radius: 14px;
   text-align: center;
   min-width: 320px;
@@ -206,21 +206,21 @@
   margin: 0;
   font-size: 1.15rem;
   font-weight: 600;
-  color: #e2e2e2;
+  color: #111;
   font-family: system-ui, -apple-system, sans-serif;
 }
 
 .loading-status {
   margin: 0;
   font-size: 0.82rem;
-  color: #888;
+  color: #666;
   font-family: system-ui, -apple-system, sans-serif;
 }
 
 .loading-bar {
   width: 200px;
   height: 3px;
-  background: #2a2a2e;
+  background: #e0e0e0;
   border-radius: 2px;
   overflow: hidden;
 }
@@ -240,7 +240,7 @@
 .loading-elapsed {
   margin: 0;
   font-size: 0.72rem;
-  color: #505055;
+  color: #aaa;
   font-variant-numeric: tabular-nums;
   font-family: system-ui, -apple-system, sans-serif;
 }
@@ -248,7 +248,7 @@
 .loading-hint {
   margin: 0;
   font-size: 0.7rem;
-  color: #484850;
+  color: #bbb;
   font-style: italic;
   max-width: 280px;
   line-height: 1.5;
@@ -260,7 +260,7 @@
   margin: 0;
   font-size: 1.1rem;
   font-weight: 700;
-  color: #e8e8e8;
+  color: #111;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   font-family: system-ui, -apple-system, sans-serif;
@@ -345,7 +345,17 @@
 .hub-content h1                             { color: #111; }
 .hub-content h2                             { color: #333; }
 
+/* Hub shell dark overrides */
 [data-theme="dark"] body                    { background: #141414; }
+[data-theme="dark"] .hub-root               { background: #141414; }
+[data-theme="dark"] .loading-screen         { background: #141414; }
+[data-theme="dark"] .loading-card           { background: #1c1c1e; border-color: #2a2a2e; }
+[data-theme="dark"] .loading-title          { color: #e2e2e2; }
+[data-theme="dark"] .loading-status         { color: #888; }
+[data-theme="dark"] .loading-bar            { background: #2a2a2e; }
+[data-theme="dark"] .loading-elapsed        { color: #505055; }
+[data-theme="dark"] .loading-hint           { color: #484850; }
+[data-theme="dark"] .welcome-brand          { color: #e8e8e8; }
 [data-theme="dark"] .layout                 { background: #1a1a1e; color: #d0d0d0; }
 [data-theme="dark"] .left-pane              { background: #1a1a1e; border-right-color: #2d2d30; }
 [data-theme="dark"] .right-pane             { background: #1e1e22; }
