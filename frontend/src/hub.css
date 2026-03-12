@@ -165,3 +165,103 @@
 .hub-content .layout {
   height: 100vh;
 }
+
+/* ===== Loading / Welcome screen ===== */
+
+.loading-screen {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #141414;
+}
+
+.loading-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 48px 64px;
+  background: #1c1c1e;
+  border: 1px solid #2a2a2e;
+  border-radius: 14px;
+  text-align: center;
+  min-width: 320px;
+  max-width: 420px;
+}
+
+.loading-dot-large {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  animation: hub-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes hub-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(0.75); }
+}
+
+.loading-title {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #e2e2e2;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.loading-status {
+  margin: 0;
+  font-size: 0.82rem;
+  color: #888;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.loading-bar {
+  width: 200px;
+  height: 3px;
+  background: #2a2a2e;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.loading-bar-fill {
+  height: 100%;
+  width: 45%;
+  background: linear-gradient(90deg, transparent, #4f8ef7 50%, transparent);
+  animation: hub-shimmer 1.6s ease-in-out infinite;
+}
+
+@keyframes hub-shimmer {
+  0%   { transform: translateX(-200px); }
+  100% { transform: translateX(440px); }
+}
+
+.loading-elapsed {
+  margin: 0;
+  font-size: 0.72rem;
+  color: #505055;
+  font-variant-numeric: tabular-nums;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.loading-hint {
+  margin: 0;
+  font-size: 0.7rem;
+  color: #484850;
+  font-style: italic;
+  max-width: 280px;
+  line-height: 1.5;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+/* Welcome */
+.welcome-brand {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #e8e8e8;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-family: system-ui, -apple-system, sans-serif;
+}

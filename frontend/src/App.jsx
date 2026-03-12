@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { ApolloClient, InMemoryCache, HttpLink } from "@apollo/client/core";
 import { ApolloProvider } from "@apollo/client/react";
 import GraphQLApp from "../../graphql-learning/frontend/src/App";
@@ -6,7 +6,7 @@ import SpringBootApp from "../../springboot-learning/frontend/src/App";
 import "./hub.css";
 
 const apolloClient = new ApolloClient({
-  link: new HttpLink({ uri: "http://localhost:8000/graphql" }),
+  link: new HttpLink({ uri: "/graphql" }),
   cache: new InMemoryCache(),
 });
 
@@ -18,6 +18,7 @@ const MODULES = [
     badge: "GraphQL",
     badgeColor: "#a0357a",
     dot: "#e535ab",
+    hint: null,
   },
   {
     id: "springboot",
@@ -26,21 +27,102 @@ const MODULES = [
     badge: "REST",
     badgeColor: "#3d7030",
     dot: "#6db33f",
+    hint: "Maven build can take 30–60 s on first run.",
   },
 ];
 
-function App() {
-  const [activeModule, setActiveModule] = useState("graphql");
-  const [open, setOpen] = useState(true);
+// ── Loading screen ──────────────────────────────────────────────────────────
+function LoadingScreen({ mod, elapsed }) {
+  return (
+    <div className="loading-screen">
+      <div className="loading-card">
+        <span className="loading-dot-large" style={{ background: mod.dot }} />
+        <h2 className="loading-title">{mod.label}</h2>
+        <p className="loading-status">Starting backend environment…</p>
+        <div className="loading-bar">
+          <div className="loading-bar-fill" />
+        </div>
+        <p className="loading-elapsed">{elapsed}s elapsed</p>
+        {mod.hint && <p className="loading-hint">{mod.hint}</p>}
+      </div>
+    </div>
+  );
+}
+
+// ── Welcome screen ──────────────────────────────────────────────────────────
+function WelcomeScreen() {
+  return (
+    <div className="loading-screen">
+      <div className="loading-card">
+        <p className="welcome-brand">BrawnedBrain</p>
+        <p className="loading-status">Select a module from the sidebar to get started.</p>
+      </div>
+    </div>
+  );
+}
+
+// ── Hub App ─────────────────────────────────────────────────────────────────
+export default function App() {
+  const [activeModule, setActiveModule] = useState(null);
+  const [moduleStatus, setModuleStatus] = useState("idle"); // idle | starting | ready
+  const [elapsed, setElapsed] = useState(0);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+
+  const pollRef    = useRef(null);
+  const timerRef   = useRef(null);
+  const activeRef  = useRef(null); // tracks which module the current poll belongs to
+
+  function clearTimers() {
+    if (pollRef.current)  { clearInterval(pollRef.current);  pollRef.current  = null; }
+    if (timerRef.current) { clearInterval(timerRef.current); timerRef.current = null; }
+  }
+
+  async function handleModuleSelect(moduleId) {
+    clearTimers();
+    setActiveModule(moduleId);
+    activeRef.current = moduleId;
+
+    // If already healthy, skip the loading screen
+    try {
+      const res  = await fetch(`/__hub/status/${moduleId}`);
+      const data = await res.json();
+      if (data.ready) { setModuleStatus("ready"); return; }
+    } catch { /* vite not ready yet — proceed to start */ }
+
+    setModuleStatus("starting");
+    setElapsed(0);
+
+    // Tell the Vite plugin to spawn the process
+    fetch(`/__hub/start/${moduleId}`, { method: "POST" }).catch(() => {});
+
+    // Elapsed counter
+    timerRef.current = setInterval(() => setElapsed((e) => e + 1), 1000);
+
+    // Health-check poll every 2 s
+    pollRef.current = setInterval(async () => {
+      if (activeRef.current !== moduleId) { clearTimers(); return; }
+      try {
+        const res  = await fetch(`/__hub/status/${moduleId}`);
+        const data = await res.json();
+        if (data.ready) {
+          clearTimers();
+          setModuleStatus("ready");
+        }
+      } catch { /* keep polling */ }
+    }, 2000);
+  }
+
+  const activeMod = MODULES.find((m) => m.id === activeModule);
 
   return (
     <div className="hub-root">
-      <aside className={`hub-sidebar ${open ? "hub-sidebar--open" : "hub-sidebar--closed"}`}>
-        <button className="hub-toggle" onClick={() => setOpen((o) => !o)}>
-          {open ? "◀" : "▶"}
+      {/* ── Sidebar ── */}
+      <aside className={`hub-sidebar ${sidebarOpen ? "hub-sidebar--open" : "hub-sidebar--closed"}`}>
+        <button className="hub-toggle" onClick={() => setSidebarOpen((o) => !o)}>
+          {sidebarOpen ? "◀" : "▶"}
         </button>
 
-        {open && (
+        {sidebarOpen && (
           <div className="hub-sidebar-inner">
             <div className="hub-brand">
               <span className="hub-brand-text">BrawnedBrain</span>
@@ -52,7 +134,7 @@ function App() {
               <button
                 key={m.id}
                 className={`hub-module-item${activeModule === m.id ? " hub-module-item--active" : ""}`}
-                onClick={() => setActiveModule(m.id)}
+                onClick={() => handleModuleSelect(m.id)}
               >
                 <span className="hub-module-dot" style={{ background: m.dot }} />
                 <span className="hub-module-info">
@@ -68,16 +150,23 @@ function App() {
         )}
       </aside>
 
+      {/* ── Main content ── */}
       <div className="hub-content">
-        {activeModule === "graphql" && (
+        {activeModule === null && <WelcomeScreen />}
+
+        {activeModule !== null && moduleStatus === "starting" && (
+          <LoadingScreen mod={activeMod} elapsed={elapsed} />
+        )}
+
+        {moduleStatus === "ready" && activeModule === "graphql" && (
           <ApolloProvider client={apolloClient}>
             <GraphQLApp />
           </ApolloProvider>
         )}
-        {activeModule === "springboot" && <SpringBootApp />}
+        {moduleStatus === "ready" && activeModule === "springboot" && (
+          <SpringBootApp />
+        )}
       </div>
     </div>
   );
 }
-
-export default App;
