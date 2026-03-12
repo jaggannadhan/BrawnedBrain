@@ -341,6 +341,10 @@
    Covers all classes from both module App.css files.
 =================================================== */
 
+/* Light mode explicit resets (prevent dark values bleeding through on toggle) */
+.hub-content h1                             { color: #111; }
+.hub-content h2                             { color: #333; }
+
 [data-theme="dark"] body                    { background: #141414; }
 [data-theme="dark"] .layout                 { background: #1a1a1e; color: #d0d0d0; }
 [data-theme="dark"] .left-pane              { background: #1a1a1e; border-right-color: #2d2d30; }
