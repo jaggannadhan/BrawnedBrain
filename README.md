@@ -41,7 +41,23 @@ Each module follows the same layout:
 
 ---
 
+## Running
+
+```bash
+# Hub (unified UI — run this to access all modules)
+cd frontend && npm install && npm run dev
+# → http://localhost:3000
+
+# Module backends (run whichever module you're using)
+cd graphql-learning && uvicorn main:app --reload   # :8000
+cd springboot-learning && mvn spring-boot:run      # :8080
+```
+
+---
+
 ## Stack
 
-- **Backend** — Python · FastAPI · Strawberry GraphQL · SQLAlchemy
+- **Hub** — React · Vite (port 3000)
+- **GraphQL module** — Python · FastAPI · Strawberry · SQLAlchemy
+- **Spring Boot module** — Java · Spring Boot · JPA · PostgreSQL
 - **Frontend** — React · Vite · Apollo Client

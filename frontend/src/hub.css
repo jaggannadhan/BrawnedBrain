@@ -1,0 +1,167 @@
+/* ===== Hub Shell ===== */
+
+.hub-root {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  background: #141414;
+}
+
+/* ===== Sidebar ===== */
+
+.hub-sidebar {
+  background: #1c1c1e;
+  border-right: 1px solid #2a2a2e;
+  flex-shrink: 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: width 0.2s ease;
+}
+
+.hub-sidebar--open  { width: 230px; }
+.hub-sidebar--closed { width: 40px; }
+
+.hub-toggle {
+  position: absolute;
+  top: 10px;
+  right: 7px;
+  background: #2a2a2e;
+  border: 1px solid #3a3a3e;
+  color: #777;
+  cursor: pointer;
+  font-size: 0.6rem;
+  padding: 4px 7px;
+  border-radius: 4px;
+  z-index: 10;
+  transition: color 0.15s, background 0.15s;
+  line-height: 1;
+}
+.hub-toggle:hover {
+  color: #ccc;
+  background: #333;
+}
+
+/* collapsed state: show a thin rail with just the toggle */
+.hub-sidebar--closed .hub-toggle {
+  right: 50%;
+  transform: translateX(50%);
+}
+
+/* ===== Sidebar inner ===== */
+
+.hub-sidebar-inner {
+  display: flex;
+  flex-direction: column;
+  padding: 48px 0 12px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  flex: 1;
+}
+
+.hub-brand {
+  padding: 0 14px 14px;
+  border-bottom: 1px solid #2a2a2e;
+  margin-bottom: 10px;
+}
+
+.hub-brand-text {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #e8e8e8;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.hub-section-label {
+  padding: 2px 14px 6px;
+  font-size: 0.6rem;
+  color: #505055;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+/* ===== Module nav items ===== */
+
+.hub-module-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: none;
+  border: none;
+  border-left: 2px solid transparent;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.hub-module-item:hover {
+  background: #242428;
+}
+
+.hub-module-item--active {
+  background: #1e2330;
+  border-left-color: #4f8ef7;
+}
+
+.hub-module-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.hub-module-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.hub-module-name {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: #d2d2d2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hub-module-desc {
+  font-size: 0.62rem;
+  color: #555;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hub-module-badge {
+  font-size: 0.55rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 3px;
+  color: white;
+  flex-shrink: 0;
+  letter-spacing: 0.04em;
+}
+
+/* ===== Main content area ===== */
+
+.hub-content {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* make module .layout fill the hub-content instead of full viewport */
+.hub-content .layout {
+  height: 100vh;
+}
