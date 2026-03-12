@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { ApolloClient, InMemoryCache, HttpLink } from "@apollo/client/core";
 import { ApolloProvider } from "@apollo/client/react";
 import GraphQLApp from "../../graphql-learning/frontend/src/App";
@@ -65,12 +65,26 @@ function WelcomeScreen() {
 export default function App() {
   const [activeModule, setActiveModule] = useState(null);
   const [moduleStatus, setModuleStatus] = useState("idle"); // idle | starting | ready
-  const [elapsed, setElapsed] = useState(0);
+  const [elapsed, setElapsed]     = useState(0);
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [theme, setTheme] = useState(
+    () => localStorage.getItem("bb-theme") || "light"
+  );
 
-  const pollRef    = useRef(null);
-  const timerRef   = useRef(null);
-  const activeRef  = useRef(null); // tracks which module the current poll belongs to
+  const pollRef   = useRef(null);
+  const timerRef  = useRef(null);
+  const activeRef = useRef(null);
+
+  // Apply theme to <html> so all CSS overrides pick it up
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [theme]);
+
+  function toggleTheme() {
+    const next = theme === "dark" ? "light" : "dark";
+    setTheme(next);
+    localStorage.setItem("bb-theme", next);
+  }
 
   function clearTimers() {
     if (pollRef.current)  { clearInterval(pollRef.current);  pollRef.current  = null; }
@@ -82,32 +96,25 @@ export default function App() {
     setActiveModule(moduleId);
     activeRef.current = moduleId;
 
-    // If already healthy, skip the loading screen
     try {
       const res  = await fetch(`/__hub/status/${moduleId}`);
       const data = await res.json();
       if (data.ready) { setModuleStatus("ready"); return; }
-    } catch { /* vite not ready yet — proceed to start */ }
+    } catch { /* proceed to start */ }
 
     setModuleStatus("starting");
     setElapsed(0);
 
-    // Tell the Vite plugin to spawn the process
     fetch(`/__hub/start/${moduleId}`, { method: "POST" }).catch(() => {});
 
-    // Elapsed counter
     timerRef.current = setInterval(() => setElapsed((e) => e + 1), 1000);
 
-    // Health-check poll every 2 s
     pollRef.current = setInterval(async () => {
       if (activeRef.current !== moduleId) { clearTimers(); return; }
       try {
         const res  = await fetch(`/__hub/status/${moduleId}`);
         const data = await res.json();
-        if (data.ready) {
-          clearTimers();
-          setModuleStatus("ready");
-        }
+        if (data.ready) { clearTimers(); setModuleStatus("ready"); }
       } catch { /* keep polling */ }
     }, 2000);
   }
@@ -148,6 +155,31 @@ export default function App() {
             ))}
           </div>
         )}
+
+        {/* ── Theme toggle — always visible at bottom ── */}
+        <div className="hub-sidebar-footer">
+          {sidebarOpen ? (
+            <div className="theme-toggle-row">
+              <span className="theme-toggle-label">
+                {theme === "dark" ? "Dark mode" : "Light mode"}
+              </span>
+              <button
+                className={`theme-toggle-switch${theme === "dark" ? " on" : ""}`}
+                onClick={toggleTheme}
+                aria-label="Toggle theme"
+              />
+            </div>
+          ) : (
+            <button
+              className="theme-toggle-icon"
+              onClick={toggleTheme}
+              aria-label="Toggle theme"
+              title={theme === "dark" ? "Switch to light" : "Switch to dark"}
+            >
+              {theme === "dark" ? "○" : "◑"}
+            </button>
+          )}
+        </div>
       </aside>
 
       {/* ── Main content ── */}

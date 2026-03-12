@@ -265,3 +265,217 @@
   text-transform: uppercase;
   font-family: system-ui, -apple-system, sans-serif;
 }
+
+/* ===== Theme toggle ===== */
+
+.hub-sidebar-footer {
+  padding: 10px 12px;
+  border-top: 1px solid #2a2a2e;
+  flex-shrink: 0;
+}
+
+.theme-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.theme-toggle-label {
+  font-size: 0.68rem;
+  color: #666;
+  font-family: system-ui, -apple-system, sans-serif;
+  white-space: nowrap;
+}
+
+.theme-toggle-switch {
+  position: relative;
+  width: 32px;
+  height: 17px;
+  background: #3a3a3e;
+  border: none;
+  border-radius: 9px;
+  cursor: pointer;
+  flex-shrink: 0;
+  padding: 0;
+  transition: background 0.2s;
+}
+.theme-toggle-switch::after {
+  content: "";
+  position: absolute;
+  top: 2.5px;
+  left: 2.5px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #666;
+  transition: transform 0.2s ease, background 0.2s;
+}
+.theme-toggle-switch.on {
+  background: #4f8ef7;
+}
+.theme-toggle-switch.on::after {
+  transform: translateX(15px);
+  background: #fff;
+}
+
+.theme-toggle-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background: none;
+  border: none;
+  color: #555;
+  font-size: 0.85rem;
+  cursor: pointer;
+  padding: 4px 0;
+  transition: color 0.15s;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+.theme-toggle-icon:hover { color: #aaa; }
+
+/* ===================================================
+   DARK THEME OVERRIDES
+   Applied via <html data-theme="dark">
+   Covers all classes from both module App.css files.
+=================================================== */
+
+[data-theme="dark"] body                    { background: #141414; }
+[data-theme="dark"] .layout                 { background: #1a1a1e; color: #d0d0d0; }
+[data-theme="dark"] .left-pane              { background: #1a1a1e; border-right-color: #2d2d30; }
+[data-theme="dark"] .right-pane             { background: #1e1e22; }
+[data-theme="dark"] h1                      { color: #e0e0e0; }
+[data-theme="dark"] h2                      { color: #d0d0d0; }
+[data-theme="dark"] .module-placeholder     { color: #666; }
+
+/* Collapsible panels */
+[data-theme="dark"] .collapsible-module     { background: #1e1e22; border-color: #2d2d30; }
+[data-theme="dark"] .collapsible-header     { background: #242428; color: #c8c8c8; }
+[data-theme="dark"] .collapsible-header:hover { background: #2c2c30; }
+[data-theme="dark"] .collapsible-arrow      { color: #777; }
+
+[data-theme="dark"] .table-selector        { background: #252528; border-color: #3a3a3e; color: #d0d0d0; }
+
+/* Theory: level filter */
+[data-theme="dark"] .theory-level-filter   { border-bottom-color: #2d2d30; }
+[data-theme="dark"] .theory-filter-btn     { background: #242428; border-color: #3a3a3e; color: #999; }
+[data-theme="dark"] .theory-filter-btn:hover { background: #2c2c30; }
+[data-theme="dark"] .theory-filter-btn.active { background: #2c2c30; border-color: #666; color: #d0d0d0; }
+
+/* Theory: subject list */
+[data-theme="dark"] .theory-subject-btn    { border-bottom-color: #2d2d30; color: #c0c0c0; }
+[data-theme="dark"] .theory-subject-btn:hover { background: #242428; }
+[data-theme="dark"] .theory-subject-arrow  { color: #555; }
+[data-theme="dark"] .theory-empty          { color: #666; }
+
+/* Theory: modal */
+[data-theme="dark"] .theory-modal          { background: #1e1e22; }
+[data-theme="dark"] .theory-modal-header   { border-bottom-color: #2d2d30; }
+[data-theme="dark"] .theory-modal-title-row h3 { color: #e0e0e0; }
+[data-theme="dark"] .theory-modal-counter  { color: #666; }
+[data-theme="dark"] .theory-modal-close    { color: #666; }
+[data-theme="dark"] .theory-modal-close:hover { color: #ccc; }
+[data-theme="dark"] .theory-modal-body     { color: #c8c8c8; }
+[data-theme="dark"] .theory-modal-body code { background: #2a2a2e; color: #c8c8c8; }
+[data-theme="dark"] .theory-modal .modal-nav-row { border-top-color: #2d2d30; }
+
+/* Theory: comparison table */
+[data-theme="dark"] .theory-table th       { background: #242428; color: #999; border-bottom-color: #3a3a3e; }
+[data-theme="dark"] .theory-table td       { border-bottom-color: #2d2d30; color: #c0c0c0; }
+[data-theme="dark"] .theory-table tr:hover td { background: #242428; }
+
+/* Theory: labels & blocks */
+[data-theme="dark"] .theory-label          { color: #888; }
+[data-theme="dark"] .theory-sublabel       { color: #777; }
+[data-theme="dark"] .theory-note           { color: #888 !important; }
+[data-theme="dark"] .theory-concept        { border-bottom-color: #2d2d30; }
+[data-theme="dark"] .theory-concept h4     { color: #a78bfa; }
+[data-theme="dark"] .theory-concept p      { color: #c0c0c0; }
+[data-theme="dark"] .theory-op-card        { background: #242428; border-color: #2d2d30; }
+[data-theme="dark"] .theory-op-card h4     { color: #a78bfa; }
+[data-theme="dark"] .theory-op-card p,
+[data-theme="dark"] .theory-op-analogy     { color: #a0a0a0; }
+[data-theme="dark"] .theory-tldr           { background: #2a2410; border-color: #6b5200; color: #f6c90e; }
+
+/* Theory: use-case cards */
+[data-theme="dark"] .use-graphql           { background: #1a2540; border-color: #3a6090; }
+[data-theme="dark"] .use-graphql h4        { color: #60a5fa; }
+[data-theme="dark"] .use-rest              { background: #2a1a1a; border-color: #904040; }
+[data-theme="dark"] .use-rest h4           { color: #f87171; }
+[data-theme="dark"] .theory-use-card       { color: #c0c0c0; }
+
+/* Flow diagram */
+[data-theme="dark"] .illustration-module   { background: #1e1e22; border-color: #2d2d30; }
+[data-theme="dark"] .illustration-header   { background: #242428; color: #c8c8c8; border-bottom-color: #2d2d30; }
+[data-theme="dark"] .flow-step             { background: #242428; border-color: #3a3a3e; }
+[data-theme="dark"] .step-detail           { color: #a0a0a0; }
+[data-theme="dark"] .flow-legend           { border-top-color: #2d2d30; }
+[data-theme="dark"] .flow-legend span      { color: #777; }
+[data-theme="dark"] .flow-empty            { color: #666; }
+[data-theme="dark"] .flow-arrow-h          { color: #444; }
+[data-theme="dark"] .flow-hu-turn-right,
+[data-theme="dark"] .flow-hu-turn-left     { color: #444; }
+[data-theme="dark"] .ctrl-btn              { background: #252528; border-color: #3a3a3e; color: #c0c0c0; }
+[data-theme="dark"] .ctrl-btn:hover:not(:disabled) { background: #2e2e32; border-color: #555; }
+[data-theme="dark"] .pause-btn             { background: #3a3010; border-color: #8a6a00; }
+[data-theme="dark"] .play-btn-icon         { background: #0a2a1a; border-color: #0a6040; }
+[data-theme="dark"] .step-counter          { color: #666; }
+
+/* Data tables */
+[data-theme="dark"] th                     { background: #242428; color: #d0d0d0; }
+[data-theme="dark"] td,
+[data-theme="dark"] th                     { border-bottom-color: #2d2d30; color: #c0c0c0; }
+[data-theme="dark"] tr:hover               { background: #242428; }
+
+/* Pagination */
+[data-theme="dark"] .pagination button     { background: #252528; border-color: #3a3a3e; color: #c0c0c0; }
+[data-theme="dark"] .pagination span       { color: #888; }
+
+/* Forms */
+[data-theme="dark"] .form-grid input       { background: #252528; border-color: #3a3a3e; color: #d0d0d0; }
+[data-theme="dark"] .form-grid input::placeholder { color: #555; }
+
+/* Search */
+[data-theme="dark"] .search-bar input      { background: #252528; border-color: #3a3a3e; color: #d0d0d0; }
+[data-theme="dark"] .search-bar input::placeholder { color: #555; }
+[data-theme="dark"] .clear-search          { background: #252528; border-color: #3a3a3e; color: #c0c0c0; }
+[data-theme="dark"] .clear-search:hover    { background: #2e2e32; }
+[data-theme="dark"] .search-count          { color: #888; }
+
+/* Action buttons */
+[data-theme="dark"] .btn-edit              { background: #1a3a6e; color: #60a5fa; }
+[data-theme="dark"] .btn-edit:hover        { background: #1e4a8e; }
+[data-theme="dark"] .btn-delete            { background: #4a1a1a; color: #f87171; }
+[data-theme="dark"] .btn-delete:hover      { background: #5a2020; }
+
+/* Modals */
+[data-theme="dark"] .modal-content         { background: #1e1e22; border-top-color: #4f8ef7; }
+[data-theme="dark"] .modal-header h3       { color: #e0e0e0; }
+[data-theme="dark"] .modal-file            { background: #2a2a2e; color: #999; }
+[data-theme="dark"] .modal-highlights h4   { color: #999; }
+[data-theme="dark"] .modal-highlights li   { color: #c0c0c0; }
+[data-theme="dark"] .modal-nav-btn,
+[data-theme="dark"] .modal-close-inline    { background: #252528; border-color: #3a3a3e; color: #c0c0c0; }
+[data-theme="dark"] .modal-nav-btn:hover:not(:disabled),
+[data-theme="dark"] .modal-close-inline:hover { background: #2e2e32; }
+
+/* Edit modal */
+[data-theme="dark"] .edit-modal            { background: #1e1e22; }
+[data-theme="dark"] .edit-modal h3         { color: #e0e0e0; }
+[data-theme="dark"] .edit-modal label      { color: #999; }
+[data-theme="dark"] .edit-modal input      { background: #252528; border-color: #3a3a3e; color: #d0d0d0; }
+
+/* Query Playground */
+[data-theme="dark"] .qp-container          { background: #1e1e22; border-color: #2d2d30; }
+[data-theme="dark"] .qp-toolbar            { background: #242428; border-bottom-color: #2d2d30; }
+[data-theme="dark"] .qp-mode-toggle        { background: #1a1a1e; }
+[data-theme="dark"] .qp-mode-btn           { color: #888; }
+[data-theme="dark"] .qp-mode-btn.active    { background: #2a2a2e; color: #d0d0d0; }
+[data-theme="dark"] .qp-samples select     { background: #252528; border-color: #3a3a3e; color: #c0c0c0; }
+[data-theme="dark"] .qp-editor-pane        { border-right-color: #2d2d30; }
+[data-theme="dark"] .qp-pane-label         { color: #666; }
+[data-theme="dark"] .qp-line-numbers       { background: #1a1a1e; border-right-color: #2d2d30; }
+[data-theme="dark"] .qp-textarea           { background: #1a1a1e; color: #c8c8c8; }
+[data-theme="dark"] .qp-run-bar            { background: #1a1a1e; border-top-color: #2d2d30; }
+[data-theme="dark"] .qp-error-banner       { background: #2a1a1a; border-top-color: #6a2a2a; color: #f87171; }
