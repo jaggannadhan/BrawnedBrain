@@ -23,6 +23,7 @@ stick faster.
 | Module | Topics Covered |
 |---|---|
 | [`graphql-learning`](./graphql-learning) | GraphQL fundamentals, Strawberry + FastAPI, DataLoader, Federation, Auth, Caching |
+| [`springboot-learning`](./springboot-learning) | Java & JVM internals, Spring Boot, JPA/Hibernate, Spring Cloud, Resilience4j, Observability, Security |
 
 ---
 
